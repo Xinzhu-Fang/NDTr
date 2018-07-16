@@ -1,3 +1,4 @@
+
 # Created by https://www.gitignore.io/api/r
 
 ### R ###
@@ -47,3 +48,5 @@ tests/Rprof.out
 # added by Cindy
 *.swo
 *.swp
+.Rproj.user
+Cindy*
