@@ -1,15 +1,17 @@
 # some utility functions that are useful
+#' @export
 get_center_bin_time <- function(time_vector) {
   center_bin_time <- NULL
   
   for (i in 1:length(time_vector)) {
-    curr_parsed_names <- unlist(strsplit(as.character(time_vector[i]), ".", fixed = TRUE))
+    curr_parsed_names <- unlist(strsplit(as.character(time_vector[i]), "_", fixed = TRUE))
     center_bin_time[i] <- mean(as.numeric(curr_parsed_names[2:3]))  # length(curr.parsed_names[2]:curr.parsed_names[3])
   }
   
   return(center_bin_time)
 }
 
+#' @export
 # convertins rate data into count data (e.g., firing rates into spike counts)
 convert_rates_to_counts <- function(binned_data) {
   the_data <- select(binned_data, starts_with("time"))
@@ -31,6 +33,7 @@ convert_rates_to_counts <- function(binned_data) {
   return(data_counts)
 }
 
+#' @export
 # gets how long a bin width is from data that is in binned.data format
 get_bin_widths <- function(time_vector) {
   bin_widths <- NULL
@@ -43,6 +46,7 @@ get_bin_widths <- function(time_vector) {
   return(bin_widths)
 }
 
+#' @export
 # if there are ties int he maximum value, then this function returns an index of one of the maxes randomly this function
 # was copied from the nnet package (which was slightly faster than my implementation)
 rand_which_max <- function(x) {
