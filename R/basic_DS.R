@@ -8,7 +8,7 @@
 #' @section basic_DS constructor:
 #' 
 #' \describe{
-#' \item{\code{basic_DS$new(binned_data, specific_binned_label_name, num_cv_splits, use_count_data, num_times_to_repeat_labels_per_cv_block )}}{
+#' \item{\code{basic_DS$new(binned_data, var_to_decode, num_cv_splits, use_count_data, num_times_to_repeat_labels_per_cv_block )}}{
 #' if successful, will return a new \code{basic_DS} object.
 #' }}
 #' 
@@ -27,14 +27,14 @@ basic_DS <- R6Class("basic_DS",
   public = list(
     # properties
     binned_data = NA,
-    specific_binned_label_name = NA, 
+    var_to_decode = NA, 
     num_cv_splits = NA,
     use_count_data = FALSE,
     num_times_to_repeat_labels_per_cv_block = 1,
     
     # constructor
-    initialize = function(binned_file_name, specific_binned_label_name, num_cv_splits, use_count_data = FALSE) {
-      self$specific_binned_label_name <- specific_binned_label_name
+    initialize = function(binned_file_name, var_to_decode, num_cv_splits, use_count_data = FALSE) {
+      self$var_to_decode <- var_to_decode
       self$num_cv_splits <- num_cv_splits
       
       # load the binned data  
@@ -55,11 +55,11 @@ basic_DS <- R6Class("basic_DS",
       # defining these here to make it potentially easy to transfer my code to other R OO systems 
       # (at the cost of a little memory)
       binned_data <- self$binned_data 
-      specific_binned_label_name <- self$specific_binned_label_name
+      var_to_decode <- self$var_to_decode
       num_trials_used_per_label <- self$num_cv_splits * self$num_times_to_repeat_labels_per_cv_block 
 
       # remove all labels that aren't being used, and rename the labels that are being used "labels"
-      label_col_ind <- match(paste0("labels_", specific_binned_label_name), names(binned_data))
+      label_col_ind <- match(paste0("labels_", var_to_decode), names(binned_data))
       binned_data <- binned_data %>% select(siteID, starts_with("time"), labels = label_col_ind)  
       
       # order data by: repetitions, sites, labels
