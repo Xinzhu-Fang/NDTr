@@ -7,12 +7,12 @@ NDTr_name = "~/NDTr"
 
 # install("NDTr")
 # document()    # sometimes can't find the NDTr code until document has been run
+matlab_raster_directory_name = "data/raster/Zhang_Desimone_7objects_raster_data/"
+create_raster_data_from_matlab_raster_data(matlab_raster_directory_name)
 
 
-
-
-raster_directory_name <- file.path("data", "Zhang_Desimone_7objects_R_raster_data")
-create_binned_data(raster_directory_name, 'ZD', 150, 50)
+raster_directory_name <- file.path("data/raster", "Zhang_Desimone_7objects_raster_data_rda")
+create_binned_data(raster_directory_name, 'data/binned/ZD', 150, 50)
 
 
 
