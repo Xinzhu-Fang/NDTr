@@ -38,8 +38,8 @@ basic_DS <- R6Class("basic_DS",
                       sample_sites_with_replacement = 0,
                       level_to_use = NULL,
                       num_resample_sites = NULL,
-                      sites_to_use = NULL,
-                      sites_to_exclude = NULL,
+                      site_IDs_to_use = NULL,
+                      site_IDs_to_exclude = NULL,
                       time_period_to_get_data_from = NULL,
                       randomly_shuffled_labels_before_running = FALSE,
                       # A boolean variable to keep track if user has initialized all settings above before running the get_data() function
@@ -71,6 +71,16 @@ basic_DS <- R6Class("basic_DS",
                         binned_data <- self$binned_data 
                         var_to_decode <- self$var_to_decode
                         num_trials_used_per_label <- self$num_cv_splits * self$num_times_to_repeat_labels_per_cv_block 
+                        initialized <- self$initialized
+                        create_simultaneously_recorded_populations = self$create_simultaneously_recorded_populations
+                        sample_sites_with_replacement = self$sample_sites_with_replacement
+                        level_to_use = self$level_to_use
+                        num_resample_sites = self$num_resample_sites
+                        site_IDs_to_use = self$site_IDs_to_use
+                        site_IDs_to_exclude = self$site_IDs_to_exclude
+                        time_period_to_get_data_from = self$time_period_to_get_data_from
+                        randomly_shuffled_labels_before_running = self$randomly_shuffled_labels_before_running
+                        
                         
                         # remove all labels that aren't being used, and rename the labels that are being used "labels"
                         label_col_ind <- match(paste0("labels.", var_to_decode), names(binned_data))
@@ -99,13 +109,17 @@ basic_DS <- R6Class("basic_DS",
                           initialized <- TRUE
                         }
                         
-                        if(is.null(sites_to_use)) {
-                          sites_to_use <- length(unique(binned_data$siteID))
+                        if(is.null(site_IDs_to_use)) {
+                          site_IDs_to_use <- unique(binned_data$siteID)
+                          #site_IDs_to_use <- 1:length(unique(binned_data$siteID))
+                          #we should change the variable site_IDs_to_use to indx_site_IDs_to_use
                         }
                         
-                        if(!is.null(sites_to_exclude)) {
-                          sites_to_use <- setdiff(sites_to_use, sites_to_exclude)
+                        if(!is.null(site_IDs_to_exclude)) {
+                          site_IDs_to_use <- setdiff(site_IDs_to_use, site_IDs_to_exclude)
                         }
+                        
+                        binned_data <- binned_data %>% dplyr::filter(siteID == site_IDs_to_use)
                         
                         # Sanity check
                         if(length(level_to_use) != length(unique(level_to_use)))
@@ -114,8 +128,8 @@ basic_DS <- R6Class("basic_DS",
                         if(create_simultaneously_recorded_populations > 2 || create_simultaneously_recorded_populations < 0)
                           stop("create_simultaneously_recorded_populations must be set to 0, 1, or 2.")
                         
-                        if(num_resample_sites < 1) {
-                          num_resample_sites <- length(sites_to_use)
+                        if(is.null(num_resample_sites)) {
+                          num_resample_sites <- site_IDs_to_use
                         }
                         
                         # order data by: repetitions, sites, labels

@@ -100,7 +100,7 @@ Create a file with binned data using 150 ms bins sampled at 50 ms by running the
 
 ```{r message=FALSE, warning=FALSE, tidy=TRUE}
 
-raster_directory_name <- "data/Zhang_Desimone_7objects_R_raster_data/"
+raster_directory_name <- "data/Zhang_Desimone_7objects_R_raster_data"
 NDTr::create_binned_data(raster_directory_name, 'ZD', 150, 50)
 load("ZD_binned_data_150ms_bins_50ms_sampled.Rda")
 
