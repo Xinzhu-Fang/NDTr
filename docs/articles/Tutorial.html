@@ -106,14 +106,6 @@
 <p>The NDTr comes with a few implementations of each of these objects, and defines interfaces that allow one to create new objects that extend the basic functionality of the four object classes. The following tutorial explains the data formats used by the Neural Decoding Toolbox, and how to run a decoding experiment using the basic versions of the four object classes.</p>
 <h4 id="about-the-data-used-in-this-tutorial">About the data used in this tutorial</h4>
 <p>The data used in this tutorial was collected by <a href="Zhang_Meyers_PNAS_2011.pdf">Ying Zhang in Bob Desimone’s lab at MIT</a> and was used in the supplemental figures in the paper Object decoding with attention in inferior temporal cortex, PNAS, 2011. The data consists of single unit recordings from the 132 neurons in inferior temporal cortex (IT). The recordings were made while a monkey viewed 7 different objects that were presented at three different locations (the monkey was also shown images that consisted of three objects shown simultaneously and had to perform an attention task, however for the purposes of this tutorial we are only going to analyze data from trials when single objects were shown). Each object was presented approximately 20 times at each of the three locations.</p>
-<h4 id="adding-the-path-to-the-toolbox">Adding the path to the toolbox</h4>
-<p>Before using any of the functions in the NDTr, the path must be set so that Matlab knows where to find these functions. The function <code>add_ndt_paths_and_init_rand_generator</code> adds the path and the appropriate directories that contain the different NDTr functions. Additionally, this function initializes the random number generator (to the current time on the CPU’s clock) so that each time the toolbox is used a different sequence of random numbers will be generated (by default Matlab uses the same seed to initialize the random number generator, which leads to the same sequence of random numbers every time Matlab is started). The following lines show how to use <code>add_ndt_paths_and_init_rand_generator</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#add the path to the NDT so add_ndt_paths_and_init_rand_generator can be called</span>
-toolbox_basedir_name =<span class="st"> 'ndt.1.0.4/'</span>
-<span class="kw">addpath</span>(toolbox_basedir_name);
- 
-<span class="co">#add the NDT paths using add_ndt_paths_and_init_rand_generator</span>
-add_ndt_paths_and_init_rand_generator</code></pre></div>
 <h3 id="data-formats">Data formats</h3>
 <p>In order to use the NDTr, the neural data must be in a usable format. Typically this involves putting the data in <a href="Raster-format.html">raster-format</a> and then converting it to <a href="Binned-format.html">binned-format</a> using the create_binned_data_from_raster_data function that is found in the tools directory.</p>
 </div>
