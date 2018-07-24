@@ -111,8 +111,6 @@ basic_DS <- R6Class("basic_DS",
                         
                         if(is.null(site_IDs_to_use)) {
                           site_IDs_to_use <- unique(binned_data$siteID)
-                          #site_IDs_to_use <- 1:length(unique(binned_data$siteID))
-                          #we should change the variable site_IDs_to_use to indx_site_IDs_to_use
                         }
                         
                         if(!is.null(site_IDs_to_exclude)) {
