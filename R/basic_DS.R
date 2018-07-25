@@ -97,6 +97,13 @@ basic_DS <- R6Class("basic_DS",
                           # space left to implement the create_simultaneously_recorded_populations
                           
                           if(randomly_shuffled_labels_before_running == TRUE) {
+                            if(create_simultaneously_recorded_populations > 0) {
+                              # Select the first site to shuffle the labels.
+                              shuffled_labels <- binned_data %>% filter(siteID == 1) %>% select(labels)
+                              rand_idx <- sample(nrow(shuffled_labels))
+                              shuffled_labels <- shuffled_labels[rand_idx, ]
+                              
+                            }
                             binned_data$labels <- sample(binned_data$labels)
                           }
                           
@@ -111,7 +118,6 @@ basic_DS <- R6Class("basic_DS",
                         
                         if(is.null(site_IDs_to_use)) {
                           site_IDs_to_use <- unique(binned_data$siteID)
-                          print(site_IDs_to_use)
                         }
                         
                         if(!is.null(site_IDs_to_exclude)) {
@@ -119,7 +125,6 @@ basic_DS <- R6Class("basic_DS",
                         }
                         
                         binned_data <- dplyr::filter(binned_data, siteID %in% site_IDs_to_use)
-                        print(binned_data$siteID)
                         
                         # Sanity check
                         if(length(level_to_use) != length(unique(level_to_use)))

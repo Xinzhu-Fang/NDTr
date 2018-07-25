@@ -14,6 +14,10 @@ specific.binned.label.name <- "stimulus_ID"    # which labels to decode
 num.cv.splits <- 5   # the number of cross-validation splits
 
 # test creating a basic DS
+library(devtools)
 load_all()
 ds <- basic_DS$new(binned.file.name, specific.binned.label.name, num.cv.splits)
 the_data <- ds$get_data()
+library(dplyr)
+shuffled_labels = the_data %>% select(labels)
+
