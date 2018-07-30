@@ -1,3 +1,4 @@
+
 #' @title A function that converts data from raster format to binned format
 #'
 #' @description This function takes takes a directory containing data in raster format
@@ -178,3 +179,4 @@ bin_data_one_site2 <- function(raster_data, bin_width, sampling_interval, start_
   
   return(binned_data_one_site)
 }
+
