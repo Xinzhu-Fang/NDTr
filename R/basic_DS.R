@@ -99,12 +99,24 @@ basic_DS <- R6Class("basic_DS",
                           if(randomly_shuffled_labels_before_running == TRUE) {
                             if(create_simultaneously_recorded_populations > 0) {
                               # Select the first site to shuffle the labels.
-                              shuffled_labels <- binned_data %>% filter(siteID == 1) %>% select(labels)
-                              rand_idx <- sample(nrow(shuffled_labels))
-                              shuffled_labels <- shuffled_labels[rand_idx, ]
+                              levels <- binned_data %>% filter(siteID == 1) %>% select(labels)
+                              all_site_levels <- levels %>% slice(rep(1:n(), length(unique(binned_data$siteID))))
+                              # All sites should have the same order of the levels. If not, stop.
+                              if(all(all_site_levels$labels != binned_data$labels)) {
+                                stop("All sites must have the same order of levels")
+                              }
                               
+                              else {
+                                # Randomly shuffle the levels. Since this parameter works on the assumption that all sites have the same order of levels,
+                                # they must also be in the same order after shuffle as well.
+                                levels$labels <- sample(levels$labels)
+                                levels <- levels %>% slice(rep(1:n(), length(unique(binned_data$siteID))))
+                                binned_data <- binned_data %>% mutate(labels = levels$labels)
+                              }
                             }
+                            
                             binned_data$labels <- sample(binned_data$labels)
+                            
                           }
                           
                           # To be implemented later
@@ -181,6 +193,7 @@ basic_DS <- R6Class("basic_DS",
                         
                         all_cv_data <- select(all_cv_data, -CV_slice_ID)  # remove the original CV_slice_ID field     
                         
+                        #return(binned_data)
                         return(all_cv_data)
                       }  # end get_data() 
                     )  # end public data/methods
