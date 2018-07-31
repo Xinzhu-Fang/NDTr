@@ -120,9 +120,9 @@ basic_DS <- R6Class("basic_DS",
                           }
                           
                           # To be implemented later
-                          #if(!is.na(time_period_to_get_data_from)) {
-                          
-                          #}
+                          if(is.null(time_period_to_get_data_from)) {
+                            num_time_bins <- sum(grepl("time.*", names(binned_data)))
+                          }
                           
                           # set the state of initialization to TRUE.
                           initialized <- TRUE
@@ -151,10 +151,8 @@ basic_DS <- R6Class("basic_DS",
                         
                         # order data by: repetitions, sites, labels
                         all_k_fold_data <- binned_data  %>% group_by(labels, siteID) %>% sample_n(size = num_trials_used_per_label)
-                        unique_labels <- unique(all_k_fold_data$labels)
-                        num_sites <- length(unique(binned_data$siteID))  
-                        num_time_bins <- sum(grepl("time_*", names(binned_data)))
-                        num_labels <- length(unique_labels)
+                        num_sites <- length(site_IDs_to_use)  
+                        num_labels <- length(level_to_use)
                         
                         # add a few names in the data frame
                         
@@ -166,7 +164,7 @@ basic_DS <- R6Class("basic_DS",
                         all_k_fold_data$CV_slice_ID <- CV_slice_ID
                         
                         # paste the site.000 in front of the siteID so that is is listed as site_0001, site_0002, etc
-                        all_k_fold_data$siteID <- paste0("site_", stringr::str_pad(all_k_fold_data$siteID, 4, pad = "0"))
+                        all_k_fold_data$siteID <- paste0("site.", stringr::str_pad(all_k_fold_data$siteID, 4, pad = "0"))
                         
                         # reshape the data so that it's [label*time*cv x site]  data frame 
                         # can do this quickly using the reshape2 package!

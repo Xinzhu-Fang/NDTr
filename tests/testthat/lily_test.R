@@ -29,3 +29,10 @@ original_order2 <- the_data %>% select(labels)
 all(original_order2$labels == the_data$labels)
 length(which(original_order2$labels %in% the_data$labels))
 length(the_data$labels)
+
+proper_basic_ds <- basic_DS$new(binned.file.name, specific.binned.label.name, num.cv.splits)
+level_use <- c("car", "kiwi")
+site_use <- c(1,5,7)
+proper_basic_ds$level_to_use <- level_use
+proper_basic_ds$site_IDs_to_use <-site_use
+proper_the_data <- proper_basic_ds$get_data()
