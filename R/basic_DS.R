@@ -152,7 +152,7 @@ basic_DS <- R6Class("basic_DS",
                         # order data by: repetitions, sites, labels
                         all_k_fold_data <- binned_data  %>% group_by(labels, siteID) %>% sample_n(size = num_trials_used_per_label)
                         num_sites <- length(site_IDs_to_use)  
-                        num_labels <- length(level_to_use)
+                        num_labels <- length(unique(level_to_use))
                         
                         # add a few names in the data frame
                         
