@@ -104,9 +104,7 @@ basic_DS <- R6Class("basic_DS",
                               # All sites should have the same order of the levels. If not, stop.
                               if(all(all_site_levels$labels != binned_data$labels)) {
                                 stop("All sites must have the same order of levels")
-                              }
-                              
-                              else {
+                              } else {
                                 # Randomly shuffle the levels. Since this parameter works on the assumption that all sites have the same order of levels,
                                 # they must also be in the same order after shuffle as well.
                                 levels$labels <- sample(levels$labels)
@@ -114,12 +112,10 @@ basic_DS <- R6Class("basic_DS",
                                 binned_data <- binned_data %>% mutate(labels = levels$labels)
                               }
                             }
-                            
+                            # If this is not a simultaneously recorded data then we can sample without making sure every session has the same order of shuffle.
                             binned_data$labels <- sample(binned_data$labels)
-                            
                           }
                           
-                          # To be implemented later
                           if(is.null(time_period_to_get_data_from)) {
                             num_time_bins <- sum(grepl("time.*", names(binned_data)))
                           }

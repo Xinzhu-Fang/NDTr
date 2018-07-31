@@ -29,8 +29,8 @@ create_binned_data_from_matlab_raster_data <- function(raster_directory_name, sa
     
     for (iSiteInfo in 1:length(raster_site_info_names)) {
       curr_info_data <- unlist(raster_site_info[iSiteInfo, ])
-      eval(parse(text = (paste0("binned_site_info$", eval(raster_site_info_names[iSiteInfo]), "[", eval(siteID), "] <- curr_info_data"))))
-    }
+      eval(parse(text = (paste0("binned_site_info$", eval(raster_site_info_names[iSiteInfo]), "[", eval(siteID), "] <- curr_info_data"))))    
+      }
     
     # parse the raster data
     raster_data <- data.frame(raster_data_list_imported_from_matlab$raster.data)
