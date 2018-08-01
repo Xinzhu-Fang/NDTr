@@ -41,7 +41,6 @@ basic_DS <- R6Class("basic_DS",
                       site_IDs_to_use = NULL,
                       site_IDs_to_exclude = NULL,
                       randomly_shuffled_labels_before_running = FALSE,
-                      #binned_site_info = NULL,
                       # A boolean variable to keep track if user has initialized all settings above before running the get_data() function
                       initialized = FALSE,
                       
@@ -182,8 +181,8 @@ basic_DS <- R6Class("basic_DS",
                         
                         
                         #return(all_k_fold_data)
-                        return(melted_data)
-                        #return(all_cv_data)
+                        #return(melted_data)
+                        return(all_cv_data)
                       }  # end get_data() 
                     )  # end public data/methods
 )  # end for the class
