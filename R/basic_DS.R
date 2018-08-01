@@ -40,8 +40,8 @@ basic_DS <- R6Class("basic_DS",
                       num_resample_sites = NULL,
                       site_IDs_to_use = NULL,
                       site_IDs_to_exclude = NULL,
-                      time_period_to_get_data_from = NULL,
                       randomly_shuffled_labels_before_running = FALSE,
+                      #binned_site_info = NULL,
                       # A boolean variable to keep track if user has initialized all settings above before running the get_data() function
                       initialized = FALSE,
                       
@@ -78,9 +78,7 @@ basic_DS <- R6Class("basic_DS",
                         num_resample_sites = self$num_resample_sites
                         site_IDs_to_use = self$site_IDs_to_use
                         site_IDs_to_exclude = self$site_IDs_to_exclude
-                        time_period_to_get_data_from = self$time_period_to_get_data_from
                         randomly_shuffled_labels_before_running = self$randomly_shuffled_labels_before_running
-                        
                         
                         # remove all labels that aren't being used, and rename the labels that are being used "labels"
                         label_col_ind <- match(paste0("labels.", var_to_decode), names(binned_data))
@@ -93,8 +91,6 @@ basic_DS <- R6Class("basic_DS",
                           else {
                             level_to_use <- as.list(levels(binned_data$labels))
                           }
-                          
-                          # space left to implement the create_simultaneously_recorded_populations
                           
                           if(randomly_shuffled_labels_before_running == TRUE) {
                             if(create_simultaneously_recorded_populations > 0) {
@@ -114,10 +110,6 @@ basic_DS <- R6Class("basic_DS",
                             }
                             # If this is not a simultaneously recorded data then we can sample without making sure every session has the same order of shuffle.
                             binned_data$labels <- sample(binned_data$labels)
-                          }
-                          
-                          if(is.null(time_period_to_get_data_from)) {
-                            num_time_bins <- sum(grepl("time.*", names(binned_data)))
                           }
                           
                           # set the state of initialization to TRUE.
@@ -148,6 +140,7 @@ basic_DS <- R6Class("basic_DS",
                         # order data by: repetitions, sites, labels
                         all_k_fold_data <- binned_data  %>% group_by(labels, siteID) %>% sample_n(size = num_trials_used_per_label)
                         num_sites <- length(site_IDs_to_use)  
+                        num_time_bins <- sum(grepl("time.*", names(binned_data)))
                         num_labels <- length(unique(level_to_use))
                         
                         # add a few names in the data frame
@@ -187,8 +180,10 @@ basic_DS <- R6Class("basic_DS",
                         
                         all_cv_data <- select(all_cv_data, -CV_slice_ID)  # remove the original CV_slice_ID field     
                         
-                        #return(binned_data)
-                        return(all_cv_data)
+                        
+                        #return(all_k_fold_data)
+                        return(melted_data)
+                        #return(all_cv_data)
                       }  # end get_data() 
                     )  # end public data/methods
 )  # end for the class

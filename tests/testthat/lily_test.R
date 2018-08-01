@@ -37,5 +37,6 @@ proper_basic_ds$level_to_use <- level_use
 proper_basic_ds$site_IDs_to_use <-site_use
 proper_the_data <- proper_basic_ds$get_data()
 
+rm(list = ls())
 matlab_raster_directory <- "/Users/lilyrithi/Documents/MATLAB/LI"
 create_binned_data_from_matlab_raster_data(matlab_raster_directory, "LI", 50, 50)
